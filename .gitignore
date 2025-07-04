@@ -1,0 +1,24 @@
+# Node.js dependencies
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Build and cache directories
+.cache/
+frontend/.cache/
+artifacts/
+cache/
+frontend/.next/
+frontend/dist/
+backend/dist/
+
+# Environment files
+.env
+.env.*
+
+# API vendor (if using PHP or similar)
+api/vendor/
+
+# OS files
+.DS_Store
+Thumbs.db 

@@ -1,0 +1,47 @@
+{
+  "name": "metacard-yield-flow",
+  "version": "1.0.0",
+  "description": "MetaCard YieldFlow - A DeFi yield aggregator",
+  "main": "index.js",
+  "scripts": {
+    "test": "hardhat test",
+    "deploy": "hardhat run scripts/deploy.js --network sepolia"
+  },
+  "keywords": [
+    "defi",
+    "yield",
+    "ethereum",
+    "solidity"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.2",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@nomiclabs/hardhat-etherscan": "^3.1.8",
+    "@nomiclabs/hardhat-waffle": "^2.0.6",
+    "@openzeppelin/contracts": "^4.9.3",
+    "@openzeppelin/hardhat-upgrades": "^3.9.0",
+    "chai": "^4.3.7",
+    "dotenv": "^16.3.1",
+    "ethereum-waffle": "^4.0.10",
+    "ethers": "^5.8.0",
+    "hardhat": "^2.25.0"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "node-fetch": "^3.3.2"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Madhusahitya/Metacard_Yieldflow.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Madhusahitya/Metacard_Yieldflow/issues"
+  },
+  "homepage": "https://github.com/Madhusahitya/Metacard_Yieldflow#readme"
+}
