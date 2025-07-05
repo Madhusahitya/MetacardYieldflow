@@ -49,8 +49,8 @@ MetaCard YieldFlow was built for the [MetaMask Card Dev Cook-Off](https://www.ha
 
 ## 🖼️ Demo
 
-![MetaCard YieldFlow Screenshot](docs/architecture.png)
-*Try it live: [your demo link here]*
+![MetaCard YieldFlow Demo: https://www.loom.com/share/1d6d4d330da947cbbaa881d9aac932f1?sid=7d5020fc-3840-4a95-a1d0-8b68cf975fb2
+*Try it live: https://metacard-yieldflow-7cv6zho9k.vercel.app/
 
 ---
 
