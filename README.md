@@ -49,8 +49,14 @@ MetaCard YieldFlow was built for the [MetaMask Card Dev Cook-Off](https://www.ha
 
 ## 🖼️ Demo
 
+<<<<<<< HEAD
 ![MetaCard YieldFlow Demo: https://www.loom.com/share/1d6d4d330da947cbbaa881d9aac932f1?sid=7d5020fc-3840-4a95-a1d0-8b68cf975fb2
 *Try it live: https://metacard-yieldflow-7cv6zho9k.vercel.app/
+=======
+
+*Try it live: https://metacard-yieldflow-7cv6zho9k.vercel.app/
+[Demo]-https://www.loom.com/share/1d6d4d330da947cbbaa881d9aac932f1?sid=10e4d5d1-547d-43be-85f0-465b7d59cc38
+>>>>>>> 2c1a84a (Update README.md)
 
 ---
 
@@ -143,11 +149,11 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 ## 🌐 Links
 
 - [MetaMask Card Dev Cook-Off](https://www.hackquest.io/hackathons/MetaMask-Card-Dev-Cook-Off)
-- [Demo](#)
+- [Demo]-https://www.loom.com/share/1d6d4d330da947cbbaa881d9aac932f1?sid=10e4d5d1-547d-43be-85f0-465b7d59cc38
 - [Docs](docs/roadmap.md)
 - [Twitter](https://twitter.com/your-twitter)
-- [LinkedIn](https://linkedin.com/in/your-linkedin)
-- [GitHub](https://github.com/your-username/MetaCardYieldFlow)
+- [LinkedIn]-https://www.linkedin.com/in/madhu-sahitya-09432934b/
+- [GitHub]-https://github.com/Madhusahitya/MetacardYieldflow
 
 ---
 
