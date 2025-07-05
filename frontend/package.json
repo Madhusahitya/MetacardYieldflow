@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@bigmi/react": "^0.4.1",
+    "@heroicons/react": "^2.2.0",
     "@lifi/widget": "^3.24.2",
     "@metamask/sdk": "^0.30.0",
     "@mysten/dapp-kit": "^0.16.13",
