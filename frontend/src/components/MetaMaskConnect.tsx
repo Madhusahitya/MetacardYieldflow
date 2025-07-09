@@ -20,10 +20,11 @@ import {
   Cog6ToothIcon,
 } from '@heroicons/react/24/outline'; // Using Heroicons for a clean look
 import { HomeIcon as HomeIconSolid, CreditCardIcon as CreditCardIconSolid, GiftIcon as GiftIconSolid, ClockIcon as ClockIconSolid, Cog6ToothIcon as Cog6ToothIconSolid } from '@heroicons/react/24/solid';
+import { OneInchCustomSwap } from "./OneInchSwap";
 
 // Define the contract address (replace with your deployed contract address later)
-const YIELD_FLOW_CONTRACT_ADDRESS = process.env.REACT_APP_YIELDFLOW_CONTRACT || '0x0fFC952ef5583F769C282533Ac7b6eA83f0Af6A1';
-const USDC_CONTRACT_ADDRESS = process.env.REACT_APP_USDC_ADDRESS || '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238';
+const YIELD_FLOW_CONTRACT_ADDRESS = process.env.REACT_APP_YIELDFLOW_CONTRACT || '0xdF9c96bb0BFd9Bc3808B2C1E2a2f10E89D9ed962';
+const USDC_CONTRACT_ADDRESS = process.env.REACT_APP_USDC_ADDRESS || '0x65aFADD39029741B3b8f0756952C74678c9cEC93';
 const REPUTATION_NFT_CONTRACT_ADDRESS = process.env.REACT_APP_REPUTATIONNFT_CONTRACT || '0xAaBE83F65763E51Ff385153A959D4A1490706bf2';
 
 const LOGO_URL = 'https://raw.githubusercontent.com/MetaMask/brand-resources/master/SVG/metamask-fox.svg';
@@ -180,13 +181,18 @@ const MetaMaskConnect: React.FC = () => {
     };
   }, []);
 
+  // State variables (declare each only once)
   const [ethereum, setEthereum] = useState<MetaMaskInpageProvider | null>(null);
   const [account, setAccount] = useState<string | null>(null);
   const [usdcBalance, setUsdcBalance] = useState<string>('0');
+  const [deposited, setDeposited] = useState<string>('0');
   const [ethBalance, setEthBalance] = useState<string>('0');
   const [reputationScore, setReputationScore] = useState<string>('0');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [depositAmount, setDepositAmount] = useState('');
+  const [withdrawAmount, setWithdrawAmount] = useState('');
+  const [txStatus, setTxStatus] = useState<string | null>(null);
   const [nftOwned, setNftOwned] = useState<boolean>(false);
   const [nftMeta, setNftMeta] = useState<any>(null);
   const [txHistory, setTxHistory] = useState<any[]>([]);
@@ -203,9 +209,7 @@ const MetaMaskConnect: React.FC = () => {
   const [animateBounce, setAnimateBounce] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [notifEnabled, setNotifEnabled] = useState(false);
-  const [depositAmount, setDepositAmount] = useState('');
-  const [spendAmount, setSpendAmount] = useState('');
-  const [withdrawAmount, setWithdrawAmount] = useState('');
+  const [amount, setAmount] = useState("");
 
   const accountRef = useRef<string | null>(null);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -369,11 +373,12 @@ const MetaMaskConnect: React.FC = () => {
       const yieldFlowContract = new Contract(YIELD_FLOW_CONTRACT_ADDRESS, YieldFlowABI.abi, signer);
       const depositTx = await yieldFlowContract.depositUSDC(amount);
       await depositTx.wait();
-      setError('Deposit successful!');
+      setTxStatus('Deposit successful!');
       fetchBalancesAndScore(account, ethereum);
       setDepositAmount('');
     } catch (err: any) {
       setError(`Deposit failed: ${err.message}`);
+      setTxStatus(null);
     } finally {
       setLoading(false);
     }
@@ -387,16 +392,17 @@ const MetaMaskConnect: React.FC = () => {
       if (!ethereum || !account) throw new Error('Wallet not connected');
       const ethersProvider = new BrowserProvider(ethereum as any);
       const signer = await ethersProvider.getSigner();
-      const amount = parseUnits(spendAmount || '0', 6); // USDC has 6 decimals
-      if (amount <= BigInt(0)) throw new Error('Enter a valid amount');
+      const spendValue = parseUnits(amount || '0', 6); // USDC has 6 decimals
+      if (spendValue <= BigInt(0)) throw new Error('Enter a valid amount');
       const yieldFlowContract = new Contract(YIELD_FLOW_CONTRACT_ADDRESS, YieldFlowABI.abi, signer);
-      const spendTx = await yieldFlowContract.spendUSDC(amount, 'Test spend');
+      const spendTx = await yieldFlowContract.spendUSDC(spendValue, 'Test spend');
       await spendTx.wait();
-      setError('Spend successful!');
+      setTxStatus('Spend successful!');
       fetchBalancesAndScore(account, ethereum);
-      setSpendAmount('');
+      setAmount('');
     } catch (err: any) {
       setError(`Spend failed: ${err.message}`);
+      setTxStatus(null);
     } finally {
       setLoading(false);
     }
@@ -819,8 +825,8 @@ const MetaMaskConnect: React.FC = () => {
                 type="number"
                 min="0"
                 step="0.01"
-                value={spendAmount}
-                onChange={e => setSpendAmount(e.target.value)}
+                value={amount}
+                onChange={e => setAmount(e.target.value)}
                 placeholder="Amount"
                 className="w-32 px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-400 minimal-input"
                 disabled={loading}
@@ -828,7 +834,7 @@ const MetaMaskConnect: React.FC = () => {
               <button
                 onClick={handleSpendWithAnimation}
                 className="w-40 py-2 px-4 text-base rounded-xl font-bold shadow-lg pastel-btn"
-                disabled={loading || !spendAmount || Number(spendAmount) <= 0}
+                disabled={loading || !amount || Number(amount) <= 0}
                 style={{ background: '#eac2ff' }}
               >
                 Spend USDC
@@ -944,6 +950,7 @@ const MetaMaskConnect: React.FC = () => {
             <div className="mt-2 text-xs font-bold bg-white bg-opacity-80 px-3 py-1 rounded-full shadow" style={{ color: '#013330' }}>Cashback: {Math.min(5, Math.floor(Number(reputationScore) / 20) + 1)}% | Bonus Rep per Spend: {Math.min(10, Math.floor(Number(reputationScore) / 10) + 1)}</div>
           </div>
         </div>
+        <OneInchCustomSwap />
       </div>
       {/* LI.FI Modal, Settings Modal, etc. remain unchanged */}
       {showLifiModal && (
